@@ -8,14 +8,20 @@ CommandRouter.prototype.route = function (commandText, confidence) {
     Implement voice command handling logic here.
     */
     //check the confidence. if it drop < 90%, should not proceed
-    if (confidence<0.5) {
+    if (confidence<0.4) {
       alert('Command may not be recognized correctly. Please find more quite place and try again (confidence:'+confidence+')');
       return;
     }
     //process the text message
     var parsedCommand = parseCommand(commandText);
+    if(parsedCommand.command!='NaN')
+    {
+      executeCommand(parsedCommand);
+    }
+    else {
+      alert('Received voice command is not recognized: ' + commandText);
+    }
 
-    executeCommand(parsedCommand);
 };
 
 function tokenizeString(str) {
@@ -56,7 +62,7 @@ function parseCommand(commandText) {
     parsedCommand.command=cmdMap.get(tokenizedStr[0]);
   }
   else {
-    alert('Received voice command not recognized: ' + commandText);
+    parsedCommand.command='NaN';
   }
   //should be more complicated NLP, but in this scope of todo application
   //the only object is todo so let's hardcode for now
