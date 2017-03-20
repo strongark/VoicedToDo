@@ -9,17 +9,22 @@ CommandRouter.prototype.route = function (commandText, confidence) {
     */
     //check the confidence. if it drop < 90%, should not proceed
     if (confidence<0.4) {
-      alert('Command may not be recognized correctly. Please find more quite place and try again (confidence:'+confidence+')');
+      $.notify('Command may not be recognized correctly. Please find more quite place and try again (confidence:'+confidence+')', "error");
       return;
     }
     //process the text message
     var parsedCommand = parseCommand(commandText);
     if(parsedCommand.command!='NaN')
     {
-      executeCommand(parsedCommand);
+      if (parsedCommand.extra[0]=='') {
+        $.notify("Note content is empty. Try adding \'with text\' before note content", "warn");
+      }
+      else {
+        executeCommand(parsedCommand);
+      }
     }
     else {
-      alert('Received voice command is not recognized: ' + commandText);
+      $.notify("Received voice command is not recognized: ["+ commandText+"]", "error");
     }
 
 };
@@ -103,6 +108,6 @@ function executeCommand(parsedCommand){
       this.app.deleteLastTodo();
         break;
     default:
-      alert('Command not supported: ' + parsedCommand.command);
+      $.notify('Command ['+parsedCommand.command+'] not supported','error');
   }
 }

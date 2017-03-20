@@ -42,7 +42,7 @@
       <input type="text"
         v-model="newTodoText"
         placeholder="New todo..."
-        @keyup.enter="addTodo()"  
+        @keyup.enter="addTodo()"
         @keyup.esc="newTodoText = '' && hideModals($event)"
         autofocus>
     </div>
@@ -96,6 +96,8 @@
 <script src="js/models.js"></script>
 <script src="js/router.js"></script>
 <script src="js/app.js"></script>
+<script src="js/jquery-3.2.0.js"></script>
+<script src="js/notify.js"></script>
 
 </body>
 </html>
